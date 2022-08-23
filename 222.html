@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webcam Capture</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.min.js"></script>
+    <script src="main.js" defer></script>
+
+</head>
+<body>
+    <div class="container">
+      <div id="login-form" class="login-page">
+        <div class="form-box">
+        <div class="button-box">
+            <div id="btn"></div>
+            <button type="button" onclick="login()" class="toggle-btn">Log In</button>
+            <button type="button" onclick="register()" class="toggle-btn">Register</button>
+        </div>
+
+        <div>
+        
+        <form id="login" action="function.php" method="post" class="input-group-login">
+            <input type="text" class="input-field" placeholder="Enter Email" required>
+            <button type="button" onclick="verify_image()"  class="verify_image">Verify Image</button>
+            <div class="face"><a class="flink" href="verify.html">Verify Image</a></div>
+            <button type="submit" class="submit-btn">Log In</button>
+        </form>
+        <form id="register" action="function.php" method="post" class="input-group-register">
+            <input type="text" name="name" class="input-field" placeholder="Name" required>
+            <input type="email" name="email" class="input-field" placeholder="Email" required>
+            <input type="password" class="input-field" placeholder="Enter Password" required>
+            <input type="password" class="input-field" placeholder="Confirm Password" required>
+            <button type="button" onclick="take_image()"  class="take_image">Take Image</button>
+            <button type="button" onclick='configure()' class="take_image">Take Image</button>
+            <div class="cont">
+                <div id="my_camera">
+    
+                </div>
+                <div id="results" style="visibility:hidden; position:absolute;">
+                </div>
+            </div>
+            <br>
+            <button type="button" onclick="saveSnap();">Save</button>
+            <input type="checkbox" class="check-box"><span>I agree to terms and conditions</span>
+            <button type="submit" class="submit-btn">Register</button>
+        </form>
+        </div>
+ 
+      <form method="post" action="http://localhost/project/storeImage.php">
+        <div class="row">
+          <div class="col-md-6">
+            <div id="my_camera"></div>
+            <br>
+            <input
+              type="button"
+              value="Take Snapshot"
+              onClick="take_snapshot()"
+            />
+            <input type="hidden" name="image" class="image-tag" />
+            <input type="text" name="name" placeholder="Name">
+          </div>
+          <div class="col-md-6">
+            <div id="results">Your captured image will appear here...</div>
+          </div>
+          <div class="col-md-12 text-center">
+            <br />
+            <button class="btn btn-success">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+ 
+    <!--Configure a few settings and attach camera -->
+    <script language="JavaScript">
+      Webcam.set({
+        width: 490,
+        height: 390,
+        image_format: "jpeg",
+        jpeg_quality: 90,
+      });
+ 
+      Webcam.attach("#my_camera");
+ 
+      function take_snapshot() {
+        Webcam.snap(function (data_uri) {
+          $(".image-tag").val(data_uri);
+          document.getElementById("results").innerHTML =
+            '<img src="' + data_uri + '"/>';
+        });
+      }
+    </script>
+</body>
+</html>
